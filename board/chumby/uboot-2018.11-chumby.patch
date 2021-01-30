@@ -532,7 +532,7 @@ diff -crB --new-file u-boot-2018.11/include/configs/mx23_chumby.h uminimum/inclu
 + 	"script=boot.scr\0"	\
 + 	"zimage=/boot/zImage\0" \
 + 	"console=ttyAMA0\0" \
-+ 	"fdt_file=/boot/dtbs/imx23-chumby.dtb\0" \
++ 	"fdt_file=/boot/imx23-chumby.dtb\0" \
 + 	"fdt_addr=0x41000000\0" \
 + 	"boot_fdt=try\0" \
 + 	"mmcdev=0\0" \
