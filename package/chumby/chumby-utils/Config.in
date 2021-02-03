@@ -1,0 +1,7 @@
+config BR2_PACKAGE_CHUMBY_UTILS
+       bool "chumby_utils"
+       help
+         chumby utils like config_util
+
+	 http://files.chumby.com/source/falconwing/build2370/utils-1.0.tgz
+
