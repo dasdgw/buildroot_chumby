@@ -3,6 +3,7 @@ BR2_arm=y
 BR2_arm926t=y
 
 # system
+BR2_CCACHE=y
 BR2_TARGET_GENERIC_GETTY_PORT="ttyAMA0"
 
 # kernel
