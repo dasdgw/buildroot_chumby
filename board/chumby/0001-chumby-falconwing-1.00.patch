@@ -257,9 +257,9 @@ index b69ace8bf..5808c340e 100644
  	writel(CTRL_DOTCLK_MODE, mxsfb->base + LCDC_CTRL + REG_SET);
 +	
 +	//Chumby Hacks
-+	reg = 0x010f0701;
++	reg = 0x01070701;
 +	writel(reg, mxsfb->base + LCDC_CTRL1);
-+	reg=0x000b0821;
++	reg=0x000b0b21;
 +	writel(reg, mxsfb->base + LCDC_CTRL);
 +	udelay(50);
  
@@ -309,9 +309,8 @@ index eabc9e41d..79e9fc108 100644
  		.width = 70,
  		.height = 53,
  	},
--	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
 +	.bus_flags = DRM_BUS_FLAG_DE_LOW,
-+	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
  };
  
  static const struct drm_display_mode arm_rtsm_mode[] = {
