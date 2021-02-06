@@ -305,12 +305,11 @@ index eabc9e41d..79e9fc108 100644
  };
  
  static const struct panel_desc winstar_wf35ltiacd = {
-@@ -3694,7 +3694,8 @@ static const struct panel_desc winstar_wf35ltiacd = {
+@@ -3694,6 +3694,7 @@ static const struct panel_desc winstar_wf35ltiacd = {
  		.width = 70,
  		.height = 53,
  	},
-	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
 +	.bus_flags = DRM_BUS_FLAG_DE_LOW,
+ 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
  };
  
- static const struct drm_display_mode arm_rtsm_mode[] = {
