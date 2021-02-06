@@ -2,6 +2,9 @@
 BR2_arm=y
 BR2_arm926t=y
 
+# patches
+BR2_GLOBAL_PATCH_DIR="board/chumby/patches"
+
 # system
 BR2_CCACHE=y
 BR2_TARGET_GENERIC_GETTY_PORT="ttyAMA0"
@@ -23,7 +26,6 @@ BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="imx23-chumby"
 BR2_LINUX_KERNEL_USE_CUSTOM_CONFIG=y
 BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE="board/chumby/chumby.kernel.config"
-BR2_LINUX_KERNEL_PATCH="board/chumby/0001-chumby-falconwing-1.00.patch"
 
 BR2_PACKAGE_ALSA_UTILS=y
 BR2_PACKAGE_ALSA_UTILS_ALSACONF=y
@@ -65,5 +67,4 @@ BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
 BR2_TARGET_UBOOT_CUSTOM_VERSION=y
 BR2_TARGET_UBOOT_CUSTOM_VERSION_VALUE="2018.11"
 #BR2_TARGET_UBOOT_PATCH="https://raw.githubusercontent.com/openhoon/chumbyhacks/master/uboot-2018.11-chumby.patch"
-BR2_TARGET_UBOOT_PATCH="board/chumby/uboot-2018.11-chumby.patch"
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="mx23_chumby"
