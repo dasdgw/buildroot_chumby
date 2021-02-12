@@ -1,0 +1,28 @@
+#!/usr/bin/env kermit
+
+set port /dev/ttyUSB0
+set speed 115200
+set carrier-watch off
+set flow-control none
+set prefixing all
+
+echo {loading dtb}
+PAUSE 1
+
+OUTPUT loadb ${loadaddr} 115200\{13}
+send /home/dasdgw/sockit/buildroot/buildroot/output/images/zImage
+INPUT 180 {\{13}\{10}=> }
+IF FAIL STOP 1 INPUT timeout
+
+echo {loading zImage}
+PAUSE 1
+
+OUTPUT loadb ${fdt_addr} 115200\{13}
+send /home/dasdgw/sockit/buildroot/buildroot/output/images/imx23-chumby.dtb
+INPUT 180 {\{13}\{10}=> }
+IF FAIL STOP 1 INPUT timeout
+
+echo {running kernel}
+PAUSE 1
+OUTPUT bootz ${loadaddr} - ${fdt_addr}\{13}
+c
