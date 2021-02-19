@@ -9,14 +9,14 @@ BR2_GLOBAL_PATCH_DIR="board/chumby/patches"
 # toolchain
 BR2_TOOLCHAIN_EXTERNAL=y
 BR2_TOOLCHAIN_EXTERNAL_CUSTOM=y
-BR2_TOOLCHAIN_EXTERNAL_DOWNLOAD=y
-BR2_TOOLCHAIN_EXTERNAL_URL="file:///home/dasdgw/chumby/toolchain/arm-buildroot-linux-uclibcgnueabi_sdk-buildroot.tar.gz"
+BR2_TOOLCHAIN_EXTERNAL_PATH="/home/dasdgw/chumby/toolchain/arm-buildroot-linux-uclibcgnueabi_sdk-buildroot"
 BR2_TOOLCHAIN_EXTERNAL_GCC_9=y
 BR2_TOOLCHAIN_EXTERNAL_HEADERS_5_9=y
 BR2_TOOLCHAIN_EXTERNAL_LOCALE=y
 BR2_TOOLCHAIN_EXTERNAL_CXX=y
 
 # greeting
+BR2_TOOLCHAIN_EXTERNAL_GDB_SERVER_COPY=y
 BR2_TARGET_GENERIC_ISSUE="Welcome to chumby, build with Buildroot"
 
 # For automatic firmware loading
@@ -48,11 +48,6 @@ BR2_PACKAGE_AUMIX=y
 BR2_PACKAGE_DIRECTFB=y
 BR2_PACKAGE_DIRECTFB_TESTS=y
 BR2_PACKAGE_DIRECTFB_EXAMPLES=y
-
-# gdb
-BR2_PACKAGE_GDB=y
-BR2_PACKAGE_GDB_DEBUGGER=y
-BR2_PACKAGE_GDB_TUI=y
 
 # kexec
 BR2_PACKAGE_KEXEC=y
