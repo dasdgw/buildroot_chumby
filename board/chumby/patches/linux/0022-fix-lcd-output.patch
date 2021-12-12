@@ -1,0 +1,31 @@
+From 8526ec0be82527f503dc6c37a9bedb5c73cf90f7 Mon Sep 17 00:00:00 2001
+From: dasdgw <michifrank2@gmx.de>
+Date: Sun, 7 Feb 2021 16:59:07 +0100
+Subject: [PATCH 22/29] fix lcd output
+
+use unpacked 24-bit (BYTE_PACKING_FORMAT=0x7) framebuffer
+The diplay uses 18 lanes for rgb, but the interface to the imx23 lcdif
+is 24bit unpacked.
+---
+ drivers/gpu/drm/mxsfb/mxsfb_crtc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c b/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
+index 5808c340ecda..3663af82b7a0 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
+@@ -131,9 +131,9 @@ static void mxsfb_enable_controller(struct mxsfb_drm_private *mxsfb)
+ 	writel(CTRL_DOTCLK_MODE, mxsfb->base + LCDC_CTRL + REG_SET);
+ 	
+ 	//Chumby Hacks
+-	reg = 0x010f0701;
++	reg = 0x01070701;
+ 	writel(reg, mxsfb->base + LCDC_CTRL1);
+-	reg=0x000b0821;
++	reg=0x000b0b21;
+ 	writel(reg, mxsfb->base + LCDC_CTRL);
+ 	udelay(50);
+ 
+-- 
+2.17.1
+

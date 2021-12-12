@@ -344,6 +344,12 @@ define UBOOT_BUILD_CMDS
 		$(UBOOT_MAKE) -C $(@D) $(UBOOT_MAKE_OPTS) \
 		$(UBOOT_MAKE_TARGET)
 	$(if $(BR2_TARGET_UBOOT_FORMAT_SD),
+#	$(HOST_DIR)/bin/elftosb $(MXS_BOOTLETS_ELFTOSB_OPTIONS) \
+#		-z -c $(@D)/$(MXS_BOOTLETS_BOOTDESC) \
+#		-o $(@D)/$(MXS_BOOTLETS_BOOTSTREAM)
+		$(HOST_DIR)/bin/elftosb -p $(@D) -f imx23 \
+		-c $(@D)/arch/arm/cpu/arm926ejs/mxs/u-boot-imx23-chumby-NG.bd \
+		-o $(@D)/u-boot.sb
 		$(@D)/tools/mxsboot sd $(@D)/u-boot.sb $(@D)/u-boot.sd)
 	$(if $(BR2_TARGET_UBOOT_FORMAT_NAND),
 		$(@D)/tools/mxsboot \

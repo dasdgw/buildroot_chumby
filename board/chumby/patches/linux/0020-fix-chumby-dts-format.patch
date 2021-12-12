@@ -1,0 +1,425 @@
+From 59ade6f50d0b7b2eaaf2c40fc036a42004852275 Mon Sep 17 00:00:00 2001
+From: dasdgw <michifrank2@gmx.de>
+Date: Sun, 7 Feb 2021 01:30:35 +0100
+Subject: [PATCH 20/29] fix chumby dts format
+
+---
+ arch/arm/boot/dts/imx23-chumby.dts | 399 +++++++++++++++--------------
+ 1 file changed, 201 insertions(+), 198 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx23-chumby.dts b/arch/arm/boot/dts/imx23-chumby.dts
+index bc4857449451..3b762867e11e 100644
+--- a/arch/arm/boot/dts/imx23-chumby.dts
++++ b/arch/arm/boot/dts/imx23-chumby.dts
+@@ -25,207 +25,210 @@
+ #include "imx23.dtsi"
+ 
+ / {
+-    model = "Blue Octy Chumby One (Falconwing)";
+-    compatible = "fsl,imx23-chumbyonef", "fsl,imx23";
++	model = "Blue Octy Chumby One (Falconwing)";
++	compatible = "fsl,imx23-chumbyonef", "fsl,imx23";
+ 
+-    memory@40000000 {
+-        reg = <0x40000000 0x04000000>;
+-    };
++	memory@40000000 {
++		reg = <0x40000000 0x04000000>;
++	};
+ /*
+-    reg_vddio_sd0: regulator-vddio-sd0 {
+-        compatible = "regulator-fixed";
+-        regulator-name = "vddio-sd0";
+-        regulator-min-microvolt = <3300000>;
+-        regulator-max-microvolt = <3300000>;
+-        gpio = <&gpio1 29 0>;
+-    };
++	reg_vddio_sd0: regulator-vddio-sd0 {
++	compatible = "regulator-fixed";
++	regulator-name = "vddio-sd0";
++	regulator-min-microvolt = <3300000>;
++	regulator-max-microvolt = <3300000>;
++	gpio = <&gpio1 29 0>;
++	};
+ */
+ 
+-    reg_lcd_3v3: regulator-lcd-3v3 {
+-        compatible = "regulator-fixed";
+-        regulator-name = "lcd-3v3";
+-        regulator-min-microvolt = <3300000>;
+-        regulator-max-microvolt = <3300000>;
+-	//detect pin?
+-        //gpio = <&gpio0 27 0>;
+-        //gpio = <&gpio1 23 0>; lets try disabling this for a sec
+-        //lcd enable pin
+-        //enable-active-high;
+-    };
+-
+-    reg_lcd_5v: regulator-lcd-5v {
+-        compatible = "regulator-fixed";
+-        regulator-name = "lcd-5v";
+-        regulator-min-microvolt = <5000000>;
+-        regulator-max-microvolt = <5000000>;
+-    };
+-    panel: panel {
+-        compatible = "winstar,wf35ltiacd";
+-        power-supply = <&reg_lcd_3v3>;
+-        backlight = <&backlight_display>;
+-	#address-cells = <1>;
+-	#size-cells = <0>;
+-        //enable-gpios = <&gpio1 23 0>; //- i think this is taken care of by mxsfb
+-            port {
+-                panel_in: endpoint {
+-		    #address-cells = <1>;
+-	            #size-cells = <0>;
+-                    remote-endpoint = <&display_out>;
+-                };
+-            };
+-        };
+-
+-   apb@80000000 {
+-        apbh@80000000 {
+-
+-            ssp0: spi@80010000 {
+-                compatible = "fsl,imx23-mmc";
+-                pinctrl-names = "default";
+-                pinctrl-0 = <&mmc0_4bit_pins_a &mmc0_pins_fixup>;
+-                bus-width = <4>;
+-                broken-cd;
+-                //vmmc-supply = <&reg_vddio_sd0>;
+-                status = "okay";
+-            };
+-
+-            pinctrl@80018000 {
+-                pinctrl-names = "default";
+-                pinctrl-0 = <&hog_pins_a>;
+-
+-                hog_pins_a: hog@0 {
+-                    reg = <0>;
+-                    fsl,pinmux-ids = <
+-                    /*  MX23_PAD_AUART1_CTS__AUART1_CTS Hub enable?*/
+-	 		MX23_PAD_LCD_RESET__LCD_RESET  /*set high to disable*/
+-	/*		MX23_PAD_LCD_RESET__GPIO_1_18 /* used in imx23-evk - */
+-                    >;
+-                    fsl,drive-strength = <MXS_DRIVE_4mA>;
+-                    fsl,voltage = <MXS_VOLTAGE_HIGH>;
+-                    //fsl,pull-up = <MXS_PULL_DISABLE>;
+-                    fsl,pull-up = <MXS_PULL_ENABLE>;
+-                };
+-
+-		lcdif_18bit_pins_a: lcdif-18bit@0 {
+-                	reg = <0>;
+-                	fsl,pinmux-ids = <
+-						MX23_PAD_LCD_D00__LCD_D00
+-                                                MX23_PAD_LCD_D01__LCD_D01
+-                                                MX23_PAD_LCD_D02__LCD_D02
+-                                                MX23_PAD_LCD_D03__LCD_D03
+-                                                MX23_PAD_LCD_D04__LCD_D04
+-                                                MX23_PAD_LCD_D05__LCD_D05
+-                                                MX23_PAD_LCD_D06__LCD_D06
+-                                                MX23_PAD_LCD_D07__LCD_D07
+-                                                MX23_PAD_LCD_D08__LCD_D08
+-                                                MX23_PAD_LCD_D09__LCD_D09
+-                                                MX23_PAD_LCD_D10__LCD_D10
+-                                                MX23_PAD_LCD_D11__LCD_D11
+-                                                MX23_PAD_LCD_D12__LCD_D12
+-                                                MX23_PAD_LCD_D13__LCD_D13
+-                                                MX23_PAD_LCD_D14__LCD_D14
+-                                                MX23_PAD_LCD_D15__LCD_D15
+-                                                MX23_PAD_LCD_D16__LCD_D16
+-                                                MX23_PAD_LCD_D17__LCD_D17
+-                                                MX23_PAD_LCD_DOTCK__LCD_DOTCK
+-                                                MX23_PAD_LCD_ENABLE__LCD_ENABLE
+-                                                MX23_PAD_LCD_HSYNC__LCD_HSYNC
+-                                                MX23_PAD_LCD_VSYNC__LCD_VSYNC
+-						/*additional*/
+-						MX23_PAD_LCD_RS__LCD_RS 
+-						MX23_PAD_LCD_WR__LCD_WR                         
+-						MX23_PAD_LCD_CS__LCD_CS                        
+-                                        >;
+-                	fsl,drive-strength = <MXS_DRIVE_4mA>;
+-                	fsl,voltage = <MXS_VOLTAGE_HIGH>;
+-                	fsl,pull-up = <MXS_PULL_DISABLE>;
+-                };
+-
+-            };
+-
+-            lcdif: lcdif@80030000 {
+-                compatible = "fsl,imx23-lcdif";
+-                pinctrl-0 = <&lcdif_18bit_pins_a>;
+-		pinctrl-names = "default";
+-		//display = <&display1>;
+-                //clock-names = "pix";
+-                status = "okay";
+-
+-                port {
+-                	display_out: endpoint {
+-                       		remote-endpoint = <&panel_in>;
+-                               };
+-                        };
+-            };//end lcdif
+-        };
+-        apbx@80040000 {
+-            lradc@80050000 {
+-                status = "okay";
+-                fsl,lradc-touchscreen-wires = <4>;
+-            };
+-
+-            pwm: pwm@80064000 {
+-                pinctrl-names = "default";
+-                pinctrl-0 = <&pwm2_pins_a>;
+-                status = "okay";
+-            };
+-            i2c: i2c@80058000 {
+-                pinctrl-names = "default";
+-                pinctrl-0 = <&i2c_pins_a>;
+-                // a 0.30 and 0.31
+-                // b lcd  gpio1.23 and 1.24
+-                // c ssp1 gpio2.3 and 2.4
+-                status = "okay";
+-            };
+-            auart0: serial@8006c000 {
+-                pinctrl-names = "default";
+-                pinctrl-0 = <&auart0_pins_a>;
+-                //status = "okay";
+-		//pins used for other hwenable stuff
+-            };
+-
+-            duart: serial@80070000 {
+-                pinctrl-names = "default";
+-                pinctrl-0 = <&duart_pins_a>;
+-                status = "okay";
+-            };
+-
+-            usbphy0: usbphy@8007c000 {
+-                status = "okay";
+-            };
+-        };
+-    };
+-
+-    ahb@80080000 {
+-        usb0: usb@80080000 {
+-            dr_mode = "host";
+-            vbus-supply = <&reg_usb0_vbus>;
+-            status = "okay";
+-        };
+-    };
+-
+-    regulators {
+-                compatible = "simple-bus";
+-                #address-cells = <1>;
+-                #size-cells = <0>;
+-
+-                reg_usb0_vbus: regulator@0 {
+-                        compatible = "regulator-fixed";
+-                        reg = <0>;
+-                        regulator-name = "usb0_vbus";
+-                        regulator-min-microvolt = <5000000>;
+-                        regulator-max-microvolt = <5000000>;
+-                        //enable-active-low;
++	reg_lcd_3v3: regulator-lcd-3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "lcd-3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		//detect pin?
++		//gpio = <&gpio0 27 0>;
++		//gpio = <&gpio1 23 0>; lets try disabling this for a sec
++		//lcd enable pin
++		//enable-active-high;
++	};
++
++	reg_lcd_5v: regulator-lcd-5v {
++		compatible = "regulator-fixed";
++		regulator-name = "lcd-5v";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++	};
++
++	panel: panel {
++		compatible = "winstar,wf35ltiacd";
++		power-supply = <&reg_lcd_3v3>;
++		backlight = <&backlight_display>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		//enable-gpios = <&gpio1 23 0>; //- i think this is taken care of by mxsfb
++		port {
++			panel_in: endpoint {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				remote-endpoint = <&display_out>;
++			};
++		};
++	};
++
++	apb@80000000 {
++		apbh@80000000 {
++
++			ssp0: spi@80010000 {
++				compatible = "fsl,imx23-mmc";
++				pinctrl-names = "default";
++				pinctrl-0 = <&mmc0_4bit_pins_a &mmc0_pins_fixup>;
++				bus-width = <4>;
++				broken-cd;
++				//vmmc-supply = <&reg_vddio_sd0>;
++				status = "okay";
++			};
++
++			pinctrl@80018000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&hog_pins_a>;
++
++				hog_pins_a: hog@0 {
++					reg = <0>;
++					fsl,pinmux-ids = <
++	*					MX23_PAD_AUART1_CTS__AUART1_CTS Hub enable?*/
++						MX23_PAD_LCD_RESET__LCD_RESET  /*set high to disable*/
++	*					MX23_PAD_LCD_RESET__GPIO_1_18 /* used in imx23-evk - */
++					>;
++					fsl,drive-strength = <MXS_DRIVE_4mA>;
++					fsl,voltage = <MXS_VOLTAGE_HIGH>;
++					//fsl,pull-up = <MXS_PULL_DISABLE>;
++					fsl,pull-up = <MXS_PULL_ENABLE>;
++			};
++
++			lcdif_18bit_pins_a: lcdif-18bit@0 {
++				reg = <0>;
++				fsl,pinmux-ids = <
++					MX23_PAD_LCD_D00__LCD_D00
++					MX23_PAD_LCD_D01__LCD_D01
++					MX23_PAD_LCD_D02__LCD_D02
++					MX23_PAD_LCD_D03__LCD_D03
++					MX23_PAD_LCD_D04__LCD_D04
++					MX23_PAD_LCD_D05__LCD_D05
++					MX23_PAD_LCD_D06__LCD_D06
++					MX23_PAD_LCD_D07__LCD_D07
++					MX23_PAD_LCD_D08__LCD_D08
++					MX23_PAD_LCD_D09__LCD_D09
++					MX23_PAD_LCD_D10__LCD_D10
++					MX23_PAD_LCD_D11__LCD_D11
++					MX23_PAD_LCD_D12__LCD_D12
++					MX23_PAD_LCD_D13__LCD_D13
++					MX23_PAD_LCD_D14__LCD_D14
++					MX23_PAD_LCD_D15__LCD_D15
++					MX23_PAD_LCD_D16__LCD_D16
++					MX23_PAD_LCD_D17__LCD_D17
++					MX23_PAD_LCD_DOTCK__LCD_DOTCK
++					MX23_PAD_LCD_ENABLE__LCD_ENABLE
++					MX23_PAD_LCD_HSYNC__LCD_HSYNC
++					MX23_PAD_LCD_VSYNC__LCD_VSYNC
++					/*additional*/
++					MX23_PAD_LCD_RS__LCD_RS
++					MX23_PAD_LCD_WR__LCD_WR
++					MX23_PAD_LCD_CS__LCD_CS
++				>;
++				fsl,drive-strength = <MXS_DRIVE_4mA>;
++				fsl,voltage = <MXS_VOLTAGE_HIGH>;
++				fsl,pull-up = <MXS_PULL_DISABLE>;
++			};
++		};
++
++			lcdif: lcdif@80030000 {
++				compatible = "fsl,imx23-lcdif";
++				pinctrl-0 = <&lcdif_18bit_pins_a>;
++				pinctrl-names = "default";
++				//display = <&display1>;
++				//clock-names = "pix";
++				status = "okay";
++
++				port {
++					display_out: endpoint {
++						remote-endpoint = <&panel_in>;
++					};
++				};
++			};//end lcdif
++		};
++
++		apbx@80040000 {
++			lradc@80050000 {
++				status = "okay";
++				fsl,lradc-touchscreen-wires = <4>;
++			};
++
++			pwm: pwm@80064000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&pwm2_pins_a>;
++				status = "okay";
++			};
++
++			i2c: i2c@80058000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&i2c_pins_a>;
++				// a 0.30 and 0.31
++				// b lcd  gpio1.23 and 1.24
++				// c ssp1 gpio2.3 and 2.4
++				status = "okay";
++			};
++
++			auart0: serial@8006c000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&auart0_pins_a>;
++				//status = "okay";
++				//pins used for other hwenable stuff
++			};
++
++			duart: serial@80070000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&duart_pins_a>;
++				status = "okay";
++			};
++
++			usbphy0: usbphy@8007c000 {
++				status = "okay";
++			};
++		};
++	};
++
++	ahb@80080000 {
++		usb0: usb@80080000 {
++			dr_mode = "host";
++			vbus-supply = <&reg_usb0_vbus>;
++			status = "okay";
++		};
++	};
++
++	regulators {
++		compatible = "simple-bus";
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		reg_usb0_vbus: regulator@0 {
++			compatible = "regulator-fixed";
++			reg = <0>;
++			regulator-name = "usb0_vbus";
++			regulator-min-microvolt = <5000000>;
++			regulator-max-microvolt = <5000000>;
++			//enable-active-low;
+ 			enable-active-high; //appears to work
+-                        //startup-delay-us = <300>; 
+-                        gpio = <&gpio0 26 0>;
+-                };
+-        };
+-
+-    backlight_display: backlight {
+-        compatible = "pwm-backlight";
+-        //#define MX23_PAD_PWM2__GPIO_1_28
+-        pwms = <&pwm 2 5000000>;
+-        brightness-levels = <0 4 8 16 32 64 128 255>;
+-        default-brightness-level = <7>;
+-    };
++			//startup-delay-us = <300>;
++			gpio = <&gpio0 26 0>;
++		};
++	};
++
++	backlight_display: backlight {
++		compatible = "pwm-backlight";
++		//#define MX23_PAD_PWM2__GPIO_1_28
++		pwms = <&pwm 2 5000000>;
++		brightness-levels = <0 4 8 16 32 64 128 255>;
++		default-brightness-level = <7>;
++	};
+ };
+-- 
+2.17.1
+

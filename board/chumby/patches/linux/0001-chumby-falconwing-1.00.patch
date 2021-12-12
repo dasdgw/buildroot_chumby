@@ -1,5 +1,18 @@
+From f1fb617880a9c0fe9691b0d166847ca84a749f2e Mon Sep 17 00:00:00 2001
+From: dasdgw <michifrank2@gmx.de>
+Date: Sat, 6 Feb 2021 22:44:01 +0100
+Subject: [PATCH 01/29] chumby-falconwing-1.00
+
+---
+ arch/arm/boot/dts/Makefile           |   1 +
+ arch/arm/boot/dts/imx23-chumby.dts   | 231 +++++++++++++++++++++++++++
+ drivers/gpu/drm/mxsfb/mxsfb_crtc.c   |  11 +-
+ drivers/gpu/drm/panel/panel-simple.c |   5 +-
+ 4 files changed, 244 insertions(+), 4 deletions(-)
+ create mode 100644 arch/arm/boot/dts/imx23-chumby.dts
+
 diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 4572db3fa..b7fe3eb1a 100644
+index 4572db3fa5ae..b7fe3eb1ade7 100644
 --- a/arch/arm/boot/dts/Makefile
 +++ b/arch/arm/boot/dts/Makefile
 @@ -675,6 +675,7 @@ dtb-$(CONFIG_SOC_VF610) += \
@@ -12,7 +25,7 @@ index 4572db3fa..b7fe3eb1a 100644
  	imx23-sansa.dtb \
 diff --git a/arch/arm/boot/dts/imx23-chumby.dts b/arch/arm/boot/dts/imx23-chumby.dts
 new file mode 100644
-index 000000000..bc4857449
+index 000000000000..bc4857449451
 --- /dev/null
 +++ b/arch/arm/boot/dts/imx23-chumby.dts
 @@ -0,0 +1,231 @@
@@ -248,7 +261,7 @@ index 000000000..bc4857449
 +    };
 +};
 diff --git a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c b/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
-index b69ace8bf..5808c340e 100644
+index b69ace8bf526..5808c340ecda 100644
 --- a/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
 +++ b/drivers/gpu/drm/mxsfb/mxsfb_crtc.c
 @@ -129,11 +129,20 @@ static void mxsfb_enable_controller(struct mxsfb_drm_private *mxsfb)
@@ -257,9 +270,9 @@ index b69ace8bf..5808c340e 100644
  	writel(CTRL_DOTCLK_MODE, mxsfb->base + LCDC_CTRL + REG_SET);
 +	
 +	//Chumby Hacks
-+	reg = 0x01070701;
++	reg = 0x010f0701;
 +	writel(reg, mxsfb->base + LCDC_CTRL1);
-+	reg=0x000b0b21;
++	reg=0x000b0821;
 +	writel(reg, mxsfb->base + LCDC_CTRL);
 +	udelay(50);
  
@@ -284,7 +297,7 @@ index b69ace8bf..5808c340e 100644
  	if (err)
  		return;
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index eabc9e41d..79e9fc108 100644
+index eabc9e41d92b..cbc358347c7f 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
 @@ -3674,7 +3674,7 @@ static const struct panel_desc vl050_8048nt_c01 = {
@@ -313,3 +326,6 @@ index eabc9e41d..79e9fc108 100644
  	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
  };
  
+-- 
+2.17.1
+
