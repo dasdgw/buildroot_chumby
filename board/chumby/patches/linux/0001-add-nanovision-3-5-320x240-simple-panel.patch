@@ -1,0 +1,73 @@
+From 4f60e8482898b3b768f92d6fdcadbde639837763 Mon Sep 17 00:00:00 2001
+From: dasdgw <michifrank2@gmx.de>
+Date: Fri, 28 Jan 2022 13:27:09 +0100
+Subject: [PATCH 1/2] add nanovision 3,5" 320x240 simple panel
+
+used in chumby falconwing
+---
+ .../bindings/display/panel/panel-simple.yaml  |  2 ++
+ drivers/gpu/drm/panel/panel-simple.c          | 28 +++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index f3c9395d2..add8d2ffd 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -224,6 +224,8 @@ properties:
+       - mitsubishi,aa070mc01-ca1
+         # Multi-Inno Technology Co.,Ltd MI1010AIT-1CP 10.1" 1280x800 LVDS IPS Cap Touch Mod.
+       - multi-inno,mi1010ait-1cp
++        # Nanovision Co., Ltd. 3.5" QVGA (320x240) TFT LCD panel with resistive touch
++      - nanovision,nma35qv65
+         # NEC LCD Technologies, Ltd. 12.1" WXGA (1280x800) LVDS TFT LCD panel
+       - nec,nl12880bc20-05
+         # NEC LCD Technologies,Ltd. WQVGA TFT LCD panel
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index eb475a3a7..fa1272a62 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -2531,6 +2531,31 @@ static const struct panel_desc multi_inno_mi1010ait_1cp = {
+ 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+ };
+ 
++static const struct drm_display_mode nanovision_nma35qv65_mode = {
++	.clock = 6000,
++	.hdisplay = 320,
++	.hsync_start = 320 + 20,
++	.hsync_end = 320 + 20 + 30,
++	.htotal = 320 + 20 + 30 + 38,
++	.vdisplay = 240,
++	.vsync_start = 240 + 4,
++	.vsync_end = 240 + 4 + 3,
++	.vtotal = 240 + 4 + 3 + 15,
++	.flags = DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_PHSYNC,
++};
++
++static const struct panel_desc nanovision_nma35qv65 = {
++	.modes = &nanovision_nma35qv65_mode,
++	.num_modes = 1,
++	.bpc = 8,
++	.size = {
++		.width = 70,
++		.height = 53,
++	},
++	.bus_flags = DRM_BUS_FLAG_DE_LOW,
++	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
++};
++
+ static const struct display_timing nec_nl12880bc20_05_timing = {
+ 	.pixelclock = { 67000000, 71000000, 75000000 },
+ 	.hactive = { 1280, 1280, 1280 },
+@@ -3794,6 +3819,9 @@ static const struct of_device_id platform_of_match[] = {
+ 	}, {
+ 		.compatible = "multi-inno,mi1010ait-1cp",
+ 		.data = &multi_inno_mi1010ait_1cp,
++	}, {
++		.compatible = "nanovision,nma35qv65",
++		.data = &nanovision_nma35qv65,
+ 	}, {
+ 		.compatible = "nec,nl12880bc20-05",
+ 		.data = &nec_nl12880bc20_05,
+-- 
+2.25.1
+
