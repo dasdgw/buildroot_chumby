@@ -1,0 +1,25 @@
+#!/usr/bin/env kermit
+
+set port /dev/ttyUSB0
+set speed 115200
+set carrier-watch off
+set flow-control none
+set prefixing all
+
+echo {waiting for login prompt...}
+PAUSE 1
+
+INPUT 180 {\{13}buildroot login: }
+IF FAIL STOP 1 INPUT timeout
+# login
+OUTPUT root\{13}
+INPUT 3 {\{13}Password: }
+OUTPUT root\{13}
+INPUT 1 {\{13}# }
+# set ip
+OUTPUT ip a a 192.168.0.111/24 dev eth0 \{13}
+OUTPUT ip r a default via 192.168.0.1 \{13}
+OUTPUT ip link set eth0 up \{13}
+CLOSE
+# quit
+#c
